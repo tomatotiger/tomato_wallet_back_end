@@ -105,3 +105,4 @@ venv.bak/
 
 *.py[cod]
 *.swp
+tomato_wallet_env
