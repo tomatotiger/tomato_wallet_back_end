@@ -27,7 +27,7 @@ class Base(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
 
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = v.ListValue(['*'])
 
     # Application definition
     INSTALLED_APPS = [
@@ -131,4 +131,6 @@ class Test(Base):
 
 
 class Prod(Base):
+    DEBUG = False
+    SECRET_KEY = v.SecretValue()
     DATABASES = v.DatabaseURLValue('postgres://localhost/tomato_wallet')
