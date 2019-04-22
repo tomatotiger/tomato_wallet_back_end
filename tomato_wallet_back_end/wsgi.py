@@ -1,5 +1,5 @@
 """
-WSGI config for tomato_wallet project.
+WSGI config for tomato_wallet_back_end project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 import os
 from configurations.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tomato_wallet.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tomato_wallet_back_end.settings')
 os.environ.setdefault('DJANGO_CONFIGURATION', 'Dev')
 
 application = get_wsgi_application()
