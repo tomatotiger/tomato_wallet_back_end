@@ -104,39 +104,38 @@ class Base(Configuration):
 
     USE_TZ = True
 
+    DATABASES = v.DatabaseURLValue('postgres://localhost/tomato_wallet')
+
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
     STATIC_URL = '/static/'
 
     REST_FRAMEWORK = {
-        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-        'PAGE_SIZE': 10
+        'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
+        'PAGE_SIZE': 10,
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+            'rest_framework.renderers.BrowsableAPIRenderer',
+        ),
+        'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+        'TEST_REQUEST_RENDERER_CLASSES': (
+            'rest_framework.renderers.MultiPartRenderer',
+            'rest_framework.renderers.JSONRenderer',
+            'rest_framework.renderers.TemplateHTMLRenderer',
+        ),
     }
 
 
 class Dev(Base):
-    # Database
-    # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'tomato_wallet',
-            'USER': 'tomato_wallet',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-            'TEST': {
-                'NAME': 'tomato_wallet_test',
-            },
-        }
-    }
+    pass
 
 
-class Test(Base):
-    DATABASES = v.DatabaseURLValue('postgres://localhost/tomato_wallet')
+class Test(Dev):
+    pass
 
 
 class Prod(Base):
     DEBUG = False
     SECRET_KEY = v.SecretValue()
-    DATABASES = v.DatabaseURLValue('postgres://localhost/tomato_wallet')
