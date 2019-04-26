@@ -5,8 +5,8 @@ from wallet.views import CategoryViewSet, ExpenseViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'category', CategoryViewSet)
-router.register(r'expense', ExpenseViewSet)
+router.register(r'category', CategoryViewSet, basename='category')
+router.register(r'expense', ExpenseViewSet, basename='expense')
 
 urlpatterns = [
     path('', include(router.urls)),
