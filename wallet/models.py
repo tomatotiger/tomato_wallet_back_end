@@ -7,7 +7,6 @@ from django.utils import timezone
 
 
 class Category(models.Model):
-    parent = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
     owner = models.ForeignKey(to=User, null=True, on_delete=models.SET_NULL)
     name = models.CharField(blank=False, max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -19,7 +18,7 @@ class Category(models.Model):
 
 @receiver(pre_save, sender=Category)
 def validate_unique(sender, instance, **kwargs):
-    # unique_together of parent, name and owner
+    # unique_together of name and owner
     if Category.objects.filter(owner=instance.owner, name=instance.name).exists():
         raise ValidationError("Duplicate Category")
 

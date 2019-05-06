@@ -8,7 +8,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'parent', 'name', 'owner')
+        fields = ('id', 'name', 'owner')
 
 
 class ExpenseSerializer(serializers.HyperlinkedModelSerializer):

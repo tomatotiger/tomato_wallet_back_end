@@ -42,7 +42,7 @@ class CategoryTest(TomatoTest):
         # check the fields
         self.assertListEqual(
             list(response_data[0].keys()),
-            ['id', 'parent', 'name', 'owner'])
+            ['id', 'name', 'owner'])
 
         # check the data
         self.assertEqual(serializer_data, response_data)
@@ -60,21 +60,9 @@ class CategoryTest(TomatoTest):
         response = self.client.post('/category/', {'name': None}, format='json')
         self.assertEqual(response.status_code, 400)
 
-    def test_create_no_parent(self):
-        # test create category with no parent
+    def test_create(self):
         self.assertTrue(self.client.login(**self.user_info))
         response = self.client.post('/category/', self.cdict, format='json')
-        self.assertEqual(response.status_code, 201)
-        serializer = CategorySerializer(Category.objects.get(owner=self.user, name=self.cname))
-        self.assertEqual(
-            json.loads(json.dumps(serializer.data)),
-            json.loads(response.content))
-
-    def test_create_with_parent(self):
-        self.assertTrue(self.client.login(**self.user_info))
-        # test create category with parent
-        parent = Category.objects.create(owner=self.user, name='papa')
-        response = self.client.post('/category/', {'name': self.cname, 'parent_id': parent.id}, format='json')
         self.assertEqual(response.status_code, 201)
         serializer = CategorySerializer(Category.objects.get(owner=self.user, name=self.cname))
         self.assertEqual(
@@ -84,7 +72,7 @@ class CategoryTest(TomatoTest):
         # check all fof the fields needed in the results.
         self.assertListEqual(
             list(json.loads(response.content).keys()),
-            ['id', 'parent', 'name', 'owner'])
+            ['id', 'name', 'owner'])
 
     def test_retrieve(self):
         pass
@@ -107,10 +95,3 @@ class CategoryTest(TomatoTest):
         self.assertEqual(Category.objects.count(), 2)
         with self.assertRaises(ValidationError):
             Category.objects.create(name='default', owner=self.user)
-
-    def test_model_delete(self):
-        # test create duplicate category with no owner
-        papa = Category.objects.create(name='default')
-        Category.objects.create(name='default_2', parent=papa)
-        papa.delete()
-        self.assertIsNone(Category.objects.first().parent)
