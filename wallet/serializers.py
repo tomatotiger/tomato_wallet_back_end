@@ -30,5 +30,5 @@ class ExpenseSerializer(serializers.HyperlinkedModelSerializer):
         category = Category.objects.get_or_create(owner=validated_data['owner'],
                                                   name=cname)[0]
 
-        expence = Expense.objects.create(**validated_data, category=category)
-        return expence
+        expense = Expense.objects.create(**validated_data, category=category)
+        return expense

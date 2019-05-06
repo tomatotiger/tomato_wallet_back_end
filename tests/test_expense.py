@@ -11,7 +11,7 @@ from wallet.views import ExpenseViewSet
 from wallet.models import Category, Expense
 
 
-class ExpenceTest(TomatoTest):
+class ExpenseTest(TomatoTest):
     def setUp(self):
         super().setUp()
         self.no_owner_cate = Category.objects.create(name=self.cname)
@@ -54,7 +54,7 @@ class ExpenceTest(TomatoTest):
         # check the data
         self.assertEqual(serializer_data, response_data)
 
-    def test_create_anonymousUser(self):
+    def test_create_by_anonymous(self):
         response = self.client.post('/expense/', {}, fomat='json')
         self.assertEqual(response.status_code, 403)
 
@@ -99,7 +99,8 @@ class ExpenceTest(TomatoTest):
         pass
 
     def test_model_delete_category(self):
-        # test create duplicate category with no owner
+        # test when expense's category was deleted, should change expenses's
+        # category to the default category
         Expense.objects.create(category=self.cate, amount=11, owner=self.user)
         self.assertEqual(Expense.objects.count(), 1)
         self.cate.delete()
