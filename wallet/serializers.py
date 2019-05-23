@@ -12,7 +12,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
 class ExpenseSerializer(serializers.HyperlinkedModelSerializer):
     category = CategorySerializer(read_only=True)
-    category_name = serializers.CharField(required=True, write_only=True)
+    category_name = serializers.CharField(write_only=True, required=False)
     record_time = serializers.DateTimeField(required=False)
 
     class Meta:
@@ -25,7 +25,10 @@ class ExpenseSerializer(serializers.HyperlinkedModelSerializer):
         return data
 
     def create(self, validated_data):
-        cname = validated_data.pop('category_name')
-        category = Category.objects.get_or_create(name=cname)[0]
-        expense = Expense.objects.create(**validated_data, category=category)
+        cname = validated_data.pop('category_name', None)
+        if cname:
+            category = Category.objects.get_or_create(name=cname)[0]
+            expense = Expense.objects.create(**validated_data, category=category)
+        else:
+            expense = Expense.objects.create(**validated_data)
         return expense
