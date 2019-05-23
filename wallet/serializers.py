@@ -3,12 +3,11 @@ from wallet.models import Category, Expense
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
     name = serializers.CharField(required=True)
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'owner')
+        fields = ('id', 'name')
 
 
 class ExpenseSerializer(serializers.HyperlinkedModelSerializer):
@@ -27,8 +26,6 @@ class ExpenseSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         cname = validated_data.pop('category_name')
-        category = Category.objects.get_or_create(owner=validated_data['owner'],
-                                                  name=cname)[0]
-
+        category = Category.objects.get_or_create(name=cname)[0]
         expense = Expense.objects.create(**validated_data, category=category)
         return expense

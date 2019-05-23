@@ -13,13 +13,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Category.objects.filter(
-            Q(owner__isnull=True) |
-            Q(owner=self.request.user)
-        ).order_by('-id')
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        return Category.objects.all().order_by('-id')
 
 
 class ExpenseViewSet(viewsets.ModelViewSet):

@@ -12,6 +12,3 @@ class TomatoTest(APITestCase):
 
         self.sb_info = {'username': 'somebody', 'password': 'top_secret'}
         self.sb = User.objects.create_user(**self.sb_info)
-
-        self.cname = 'category'
-        self.cdict = {'name': 'category'}
