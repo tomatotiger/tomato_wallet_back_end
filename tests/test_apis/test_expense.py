@@ -102,7 +102,7 @@ class ExpenseTest(TomatoTest):
                              ['id', 'amount', 'category', 'record_time'])
 
         # check the data
-        self.assertEqual([e['amount'] for e in response_data], [3.00, 1.00])
+        self.assertEqual([e['amount'] for e in response_data], ['3.00', '1.00'])
 
     def test_retrieve(self):
         pass
