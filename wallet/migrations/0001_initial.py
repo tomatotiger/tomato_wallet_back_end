@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('record_time', models.DateTimeField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('category', models.ForeignKey(on_delete=models.SET(wallet.models.get_sentinel_category), to='wallet.Category')),
+                ('category', models.ForeignKey(on_delete=models.SET(models.CASCADE), to='wallet.Category')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

@@ -1,5 +1,4 @@
 -r test.txt
 ipython
 pdbpp
-pytest-watch
 yapf
